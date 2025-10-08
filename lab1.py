@@ -53,7 +53,7 @@ def create_pattern_g(x, a):
     print(pattern)
 
 print('2. Сгенерированный Узор, № g (шахматная доска)')
-create_pattern_g(8, 2)
+create_pattern_g(8, 1)
 
 
 #3. Создает график функции, f(x) = 3x
@@ -80,7 +80,7 @@ def create_graph(y, x):
     print(graph)
 
 print('3. График функции, f(x) = 3x')
-create_graph(12, 8)
+create_graph(9, 3)
 
 
 #4. Создает гистограмму на основе условия № 7
@@ -89,15 +89,23 @@ def get_percent():
     greater_minus5 = 0
     less_minus5 = 0
     
+    file_path=r'C:\Users\SPRADOH\Desktop\SPRADOH\PythonProjectRepo\sequence.txt'
     # Создаем тестовую последовательность, если файла нет
     try:
-        with open('sequence.txt', 'r') as file:
-            numbers = [float(x.strip()) for x in file.readlines() if x.strip()]
+        with open(file_path, 'r') as file:
+            content=file.read().strip()
+            numbers = [float(x.strip()) for x in content.split()]
     except FileNotFoundError:
+        print("файл не найден, используется тестовая последовательность")
         # Тестовая последовательность для варианта 7
         numbers = [-2, -6, -1, -8, -3, -7, -4, -9, -2, -10, -1, -11, 
                   -3, -4, -6, -7, -2, -8, -1, -9, -3, -10, -4, -11]
     
+    print(f"Всего чисел в последовательности: {len(numbers)}")
+    print(f"Положительные числа (отброшены): {len([x for x in numbers if x > 0])}")
+    print(f"Нули (отброшены): {len([x for x in numbers if x == 0])}")
+
+
     for num in numbers:
         if num > -5 and num < 0:
             greater_minus5 += 1
@@ -117,22 +125,25 @@ def get_percent():
 def create_histogram(entries):
     """строит гистограмму на основе результатов"""
     graph = ''
+    # FIXED: Proper histogram construction
     for i in range(len(entries)-1, -3, -1):
-        for j in range(0, 110, 10):
-            if j == 0 and i >= 0:
-                graph += f'          |\n{entries[i][0]}|'
-                number_of_times = int(entries[i][1]) // 10
-                graph += BLUE
-                graph += '    ' * number_of_times
-                graph += f'{END}{entries[i][1]}%'
-            elif i <= -1 and j == 0:
-                graph += '          '
-            elif i == -1 and j > 0:
-                graph += f'----'
-            elif i == -2 and j > 0:
-                graph += f' {j} '
-        graph += '\n'
-    print(graph)
+        line = ''
+        if i >= 0:
+            # Label and bar
+            label = entries[i][0]
+            percent = entries[i][1]
+            bar_length = int(percent // 5)  # Scale for better visibility
+            line += f'{label:>12} |{BLUE}'
+            line += '█' * bar_length
+            line += f'{END} {percent}%'
+        elif i == -1:
+            # X-axis line
+            line += ' ' * 13 + '└' + '─' * 20
+        elif i == -2:
+            # X-axis labels
+            line += ' ' * 13 + '0%   ' + '20%   ' + '40%   ' + '60%   ' + '80%   ' + '100%'
+        print(line)
+    print()
 
 percents = get_percent()
 print('4. Гистограмма процентного количества чисел по условию варианта 7')
@@ -140,7 +151,7 @@ print('Условие: Числа больше -5 и меньше -5, полож
 create_histogram(percents)
 
 
-#5. Анимация с использованием os.system('cls')
+#5. Анимация с использованием os.system('cls') - FIXED
 def animate(x):
     """функция, которая создает анимацию, где x - размер"""
     # Фрейм 1: Прямоугольник
@@ -152,7 +163,7 @@ def animate(x):
             else:
                 line += '   '
         print(line)
-        time.sleep(0.2)
+    time.sleep(1)  # FIXED: Wait after drawing complete frame
     os.system('cls')
     
     # Фрейм 2: Крест
@@ -164,7 +175,7 @@ def animate(x):
             else:
                 line += '   '
         print(line)
-        time.sleep(0.2)
+    time.sleep(1)  # Wait after drawing complete frame
     os.system('cls')
     
     # Фрейм 3: Диагонали
@@ -176,8 +187,10 @@ def animate(x):
             else:
                 line += '   '
         print(line)
-        time.sleep(0.2)
+    time.sleep(1)  # Wait after drawing complete frame
     os.system('cls')
 
 print('5. Анимация')
+input("Нажмите Enter чтобы начать анимацию...")
 animate(12)
+print("Анимация завершена!")
