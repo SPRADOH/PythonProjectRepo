@@ -125,7 +125,7 @@ def get_percent():
 def create_histogram(entries):
     """строит гистограмму на основе результатов"""
     graph = ''
-    # FIXED: Proper histogram construction
+    #histogram construction
     for i in range(len(entries)-1, -3, -1):
         line = ''
         if i >= 0:
@@ -151,7 +151,7 @@ print('Условие: Числа больше -5 и меньше -5, полож
 create_histogram(percents)
 
 
-#5. Анимация с использованием os.system('cls') - FIXED
+#5. Анимация с использованием os.system('cls')
 def animate(x):
     """функция, которая создает анимацию, где x - размер"""
     # Фрейм 1: Прямоугольник
@@ -163,7 +163,7 @@ def animate(x):
             else:
                 line += '   '
         print(line)
-    time.sleep(1)  # FIXED: Wait after drawing complete frame
+    time.sleep(1)  #Wait after drawing complete frame
     os.system('cls')
     
     # Фрейм 2: Крест
