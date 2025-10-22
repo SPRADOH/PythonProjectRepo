@@ -1,20 +1,21 @@
+#VARIANT 7
 import csv
 import xml.dom.minidom
 import random
 
-# ===== CSV FILE PROCESSING (books-en.csv) =====
+
 
 def process_csv_file():
     print("Processing books-en.csv file...")
     
-    # Read the CSV file
+    # Read  CSV file
     with open('books-en.csv', 'r', encoding='utf-8') as file:
         reader = csv.DictReader(file, delimiter=';')
         books = list(reader)
     
     print(f"Total records: {len(books)}")
     
-    # Task 1: Count records with title longer than 30 characters
+    # Exercise 1: Count records with title longer than 30 characters
     long_titles_count = 0
     for book in books:
         title = book.get('Book-Title', '')
@@ -23,7 +24,7 @@ def process_csv_file():
     
     print(f"Books with titles longer than 30 characters: {long_titles_count}")
     
-    # Task 2: Search books by author with variant restrictions (Option 7: From 1991 to 1995)
+    # Exercise 2: Search books by author with variant restrictions 
     def search_books_by_author(author_name):
         results = []
         for book in books:
@@ -41,7 +42,7 @@ def process_csv_file():
     for i, book in enumerate(found_books, 1):
         print(f"{i}. {book.get('Book-Title')} ({book.get('Year-Of-Publication')})")
     
-    # Task 3: Generate bibliographic references for 20 random records
+    # Exercisr 3: Generate bibliographic references for 20 random records
     def generate_bibliographic_references():
         # Select 20 random books
         if len(books) >= 20:
@@ -57,7 +58,7 @@ def process_csv_file():
             reference = f"{author}. {title} - {year}"
             references.append(reference)
         
-        # Save to file
+        # Save
         with open('bibliographic_references.txt', 'w', encoding='utf-8') as f:
             for i, ref in enumerate(references, 1):
                 f.write(f"{i}. {ref}\n")
@@ -67,7 +68,7 @@ def process_csv_file():
     
     references = generate_bibliographic_references()
     
-    # Additional tasks for Option 7
+    # Additional tasks
     # List of unique publishers
     publishers = set()
     for book in books:
@@ -93,7 +94,7 @@ def process_csv_file():
     for i, book in enumerate(top_20_books, 1):
         print(f"{i}. {book.get('Book-Title')} by {book.get('Book-Author')}")
 
-# ===== XML FILE PROCESSING (currency.xml) =====
+
 
 def process_xml_file():
     print("\nProcessing currency.xml file...")
@@ -104,7 +105,7 @@ def process_xml_file():
     # Get all Valute elements
     valutes = dom.getElementsByTagName('Valute')
     
-    # Option 7: List of CharCode, but only for currencies with Nominal=10 or Nominal=100
+    # Variant 7: List of CharCode, but only for currencies with Nominal=10 or Nominal=100
     charcodes = []
     
     for valute in valutes:
@@ -146,7 +147,7 @@ def process_xml_file():
         except ValueError:
             continue
 
-# ===== MAIN EXECUTION =====
+
 
 if __name__ == "__main__":
     print("=== Lab 2 - Option 7 Solution ===")
@@ -165,4 +166,4 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"Error processing XML file: {e}")
     
-    print("\n=== Program completed ===")
+    print("\nProgram completed")
