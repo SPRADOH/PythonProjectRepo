@@ -1,8 +1,10 @@
 import os
 import time
 
+
 def esc(code):
     return f'\u001b[{code}m'
+
 
 RED = esc(41)
 BLUE = esc(44)
@@ -91,7 +93,7 @@ def get_percent():
     file_path=r'C:\Users\SPRADOH\Desktop\SPRADOH\PythonProjectRepo\sequence.txt'
     # Создаем тестовую последовательность, если файла нет
     try:
-        with open(file_path, 'r') as file:
+        with open(file_path) as file:
             content=file.read().strip()
             numbers = [float(x.strip()) for x in content.split()]
     except FileNotFoundError:
