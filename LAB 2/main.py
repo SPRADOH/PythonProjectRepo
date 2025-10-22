@@ -9,7 +9,7 @@ def process_csv_file():
     print("Processing books-en.csv file...")
     
     # Read  CSV file
-    with open('books-en.csv', 'r', encoding='utf-8') as file:
+    with open('books-en.csv', 'r', encoding='latin-1') as file:
         reader = csv.DictReader(file, delimiter=';')
         books = list(reader)
     
@@ -99,58 +99,70 @@ def process_csv_file():
 def process_xml_file():
     print("\nProcessing currency.xml file...")
     
-    # Parse the XML file
-    dom = xml.dom.minidom.parse('currency.xml')
+    try:
+        # First, let's see what's in the file
+        with open('currency.xml', 'r', encoding='windows-1251') as f:
+            content = f.read()
+            print(f"First 500 chars of XML: {content[:500]}")
+    except Exception as e:
+        print(f"Error reading XML file: {e}")
+        return
     
-    # Get all Valute elements
-    valutes = dom.getElementsByTagName('Valute')
-    
-    # Variant 7: List of CharCode, but only for currencies with Nominal=10 or Nominal=100
-    charcodes = []
-    
-    for valute in valutes:
-        # Get CharCode
-        charcode_element = valute.getElementsByTagName('CharCode')[0]
-        charcode = charcode_element.firstChild.data if charcode_element.firstChild else ""
+    try:
+        # Then parse the XML
+        dom = xml.dom.minidom.parse('currency.xml')
         
-        # Get Nominal
-        nominal_element = valute.getElementsByTagName('Nominal')[0]
-        nominal = nominal_element.firstChild.data if nominal_element.firstChild else ""
+        # Get all Valute elements (corrected from 'Value' to 'Valute')
+        valutes = dom.getElementsByTagName('Valute')
         
-        # Convert nominal to integer and check condition
-        try:
-            nominal_int = int(nominal)
-            if nominal_int == 10 or nominal_int == 100:
-                charcodes.append(charcode)
-        except ValueError:
-            continue
-    
-    print(f"CharCodes for currencies with Nominal=10 or Nominal=100: {charcodes}")
-    print(f"Total count: {len(charcodes)}")
-    
-    # Print detailed information
-    print("\nDetailed information:")
-    for valute in valutes:
-        charcode_element = valute.getElementsByTagName('CharCode')[0]
-        charcode = charcode_element.firstChild.data if charcode_element.firstChild else ""
+        # Variant 7: List of CharCode, but only for currencies with Nominal=10 or Nominal=100
+        charcodes = []
         
-        nominal_element = valute.getElementsByTagName('Nominal')[0]
-        nominal = nominal_element.firstChild.data if nominal_element.firstChild else ""
+        for valute in valutes:
+            # Get CharCode
+            charcode_element = valute.getElementsByTagName('CharCode')[0]
+            charcode = charcode_element.firstChild.data if charcode_element.firstChild else ""
+            
+            # Get Nominal
+            nominal_element = valute.getElementsByTagName('Nominal')[0]
+            nominal = nominal_element.firstChild.data if nominal_element.firstChild else ""
+            
+            # Convert nominal to integer and check condition
+            try:
+                nominal_int = int(nominal)
+                if nominal_int == 10 or nominal_int == 100:
+                    charcodes.append(charcode)
+            except ValueError:
+                continue
         
-        name_element = valute.getElementsByTagName('Name')[0]
-        name = name_element.firstChild.data if name_element.firstChild else ""
+        print(f"CharCodes for currencies with Nominal=10 or Nominal=100: {charcodes}")
+        print(f"Total count: {len(charcodes)}")
         
-        try:
-            nominal_int = int(nominal)
-            if nominal_int == 10 or nominal_int == 100:
-                print(f"  {charcode}: {name} (Nominal: {nominal})")
-        except ValueError:
-            continue
-
+        # Print detailed information
+        print("\nDetailed information:")
+        for valute in valutes:
+            charcode_element = valute.getElementsByTagName('CharCode')[0]
+            charcode = charcode_element.firstChild.data if charcode_element.firstChild else ""
+            
+            nominal_element = valute.getElementsByTagName('Nominal')[0]
+            nominal = nominal_element.firstChild.data if nominal_element.firstChild else ""
+            
+            name_element = valute.getElementsByTagName('Name')[0]
+            name = name_element.firstChild.data if name_element.firstChild else ""
+            
+            try:
+                nominal_int = int(nominal)
+                if nominal_int == 10 or nominal_int == 100:
+                    print(f"  {charcode}: {name} (Nominal: {nominal})")
+            except ValueError:
+                continue
+                
+    except Exception as e:
+        print(f"Error parsing XML: {e}")
 
 
 if __name__ == "__main__":
-    print("=== Lab 2 - Option 7 Solution ===")
+    print(" Lab 2 - Variant 7 Solution ===")
     
     try:
         process_csv_file()
