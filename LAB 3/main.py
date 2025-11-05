@@ -34,7 +34,7 @@ def main():
     pygame.mixer.init()
     pygame.mixer.music.load("Hans Zimmer - Eternal Honor (hitmos.fm).mp3") 
     pygame.mixer.music.set_volume(0.5)
-    pygame.mixer.music.play(0)
+    pygame.mixer.music.play(-1)
 
     window = Tk()
     window.title("Key Generator - Variant 7")
