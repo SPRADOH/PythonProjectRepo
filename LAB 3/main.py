@@ -44,7 +44,7 @@ def main():
         window, 
         text="Variant 7 Key Generator", 
         font=("Arial", 16, "bold"), 
-        bg=''
+        bg='white'
     )
     title_label.pack(pady=10)
     
@@ -53,7 +53,7 @@ def main():
         window, 
         text="Enter 6-letter word:", 
         font=("Arial", 12), 
-        bg=''
+        bg='white'
     )
     input_label.pack()
     
@@ -89,7 +89,7 @@ def main():
         window,
         text="Generated Key:",
         font=("Arial", 12),
-        bg=''
+        bg='white'
     )
     result_text_label.pack()
     
