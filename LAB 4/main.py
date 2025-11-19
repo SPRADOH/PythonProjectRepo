@@ -1,4 +1,6 @@
-MAX_SIZE = 8
+WIDTH = 4
+HEIGHT = 2
+MAX_SIZE = WIDTH * HEIGHT
 
 items = {
     'r': {'points': 25, 'size': 3},
@@ -55,15 +57,15 @@ def knapsack_dp(items, max_size=MAX_SIZE):
 
 
 def display_inventory(selected_items, items):
-    inventory = [['[ ]' for _ in range(4)] for _ in range(2)]
+    inventory = [['[ ]' for _ in range(WIDTH)] for _ in range(HEIGHT)]
     pos = 0
     
     for item in selected_items:
         size = items[item]['size']
         for _ in range(size):
-            if pos < 8:
-                row = pos // 4
-                col = pos % 4
+            if pos < MAX_SIZE:
+                row = pos // WIDTH
+                col = pos % WIDTH
                 inventory[row][col] = f'[{item}]'
                 pos += 1
     
