@@ -74,4 +74,4 @@ def display_inventory(selected_items, items):
 if __name__ == '__main__':
     selected, score = knapsack_dp(items)
     display_inventory(selected, items)
-    print(f'\nИтоговые очки выживания: {score}')
+    print(f'\nFinal survival points: {score}')
