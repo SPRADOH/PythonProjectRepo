@@ -66,7 +66,7 @@ def task3():
     print('Total=', len(rows))
     return rows
 
-def Additional_task():
+def additional_task():
     with open('task_add.txt', 'r') as f:
         content = f.read()
     
@@ -84,4 +84,4 @@ if __name__ == "__main__":
     task1()
     task2()
     task3()
-    Additional_task()
+    additional_task()
