@@ -33,17 +33,17 @@ def task2():
             if font_name:
                 cleaned.append(font_name)
     
-    unique = []
+    font_type = []
     seen = set()
     for font in cleaned:
         if font not in seen:
             seen.add(font)
-            unique.append(font)
+            font_type.append(font)
     
     print("\nTask 2:")
-    print(f"Found {len(unique)} font-type: {unique}")
+    print(f"Found {len(font_type)} font-type: {font_type}")
     
-    return unique
+    return font_type
 
 
 def task3():
