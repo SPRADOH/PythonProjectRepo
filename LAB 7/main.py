@@ -2,7 +2,6 @@ import requests # type: ignore
 import json
 from datetime import datetime
 
-# Your API key
 API_KEY = '919784ee-64ca-46a0-b18c-728645cf096e'
 URL = 'https://holidayapi.com/v1/holidays'
 
@@ -106,14 +105,13 @@ def get_country_choice():
 
 if __name__ == '__main__':
     api = SimpleHolidayAPI(API_KEY)
-    year = 2025  # My plan only supports 2025
+    year = 2025  # My free plan only supports 2025
     
     while True:
         show_menu()
         choice = input("Enter your choice (1-3): ").strip()
         
         if choice == '1':
-            # Show for ALL countries
             print(f"\n")
             print(f"FETCHING HOLIDAYS FOR ALL COUNTRIES ({year})")
             print(f"\n")
@@ -122,17 +120,13 @@ if __name__ == '__main__':
                 print(f"\n{key}. {country['name']} ({country['code']})")
                 print("\n")
                 
-                # Set option for each country
                 api.set_query(country['code'], year)
                 
-                # Get data
                 print("Fetching data...")
                 result = api.fetch_data()
                 
-                # Display
                 api.display(result)
                 
-                # Save raw JSON files
                 filename = f'holidays_{country["code"]}_2025.json'
                 with open(filename, 'w', encoding='utf-8') as f:
                     json.dump(result, f, indent=2)
@@ -144,7 +138,6 @@ if __name__ == '__main__':
             print("\n")
             
         elif choice == '2':
-            # Show for SPECIFIC country
             show_country_list()
             country_code, country_name = get_country_choice()
             
@@ -152,17 +145,13 @@ if __name__ == '__main__':
             print(f"FETCHING HOLIDAYS FOR {country_name} ({country_code}) - {year}")
             print(f"\n")
             
-            # Set option for selected country
             api.set_query(country_code, year)
             
-            # get data
             print("Fetching data...")
             result = api.fetch_data()
             
-            # Display
             api.display(result)
             
-            # Save raw JSON
             filename = f'holidays_{country_code}_2025.json'
             with open(filename, 'w', encoding='utf-8') as f:
                 json.dump(result, f, indent=2)
