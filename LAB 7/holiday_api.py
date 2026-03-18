@@ -2,7 +2,7 @@ import requests # type: ignore
 import json
 from datetime import datetime
 
-API_KEY = '919784ee-64ca-46a0-b18c-728645cf096e'
+API_KEY = '55f49ecc-d818-4f5c-b9e4-86af5f5ccfa3'
 URL = 'https://holidayapi.com/v1/holidays'
 
 class SimpleHolidayAPI:
@@ -27,11 +27,8 @@ class SimpleHolidayAPI:
     def display(self, data):
         holidays = data.get('holidays', [])
         
-        print("\n")
-        print(f"HOLIDAYS IN {self.country} FOR {self.year}")
-        print("\n")
+        print(f"\nHOLIDAYS IN {self.country} FOR {self.year}")
         print(f"Total found: {len(holidays)}")
-        print("\n")
         
         for i, h in enumerate(holidays[:5], 1):
             print(f"\n{i}. {h.get('name', 'N/A')}")
@@ -48,11 +45,8 @@ class SimpleHolidayAPI:
             print(f"   Country: {self.country}")
         
         if len(holidays) == 0:
-            print("\n  No holidays found for this country in 2025")
-        
-        print("\n")
+            print("\n   No holidays found for this country in 2025")
 
-# Available countries dictionary
 COUNTRIES = {
     '1': {'code': 'US', 'name': 'United States'},
     '2': {'code': 'GB', 'name': 'United Kingdom'},
@@ -77,23 +71,17 @@ COUNTRIES = {
 }
 
 def show_menu():
-    print("\n")
-    print("HOLIDAY API PROGRAM - VARIANT 7")
-    print("\n")
+    print("\nHOLIDAY API PROGRAM - VARIANT 7")
     print("YEAR: 2025 (Your plan supports 2025 only)")
-    print("\n")
-    print("OPTIONS:")
+    print("\nOPTIONS:")
     print("1. Show holidays for ALL countries")
     print("2. Show holidays for a SPECIFIC country")
     print("3. Exit")
-    print("\n")
 
 def show_country_list():
     print("\nAVAILABLE COUNTRIES:")
-    print("\n")
     for key, country in COUNTRIES.items():
         print(f"{key}. {country['name']} ({country['code']})")
-    print("\n")
 
 def get_country_choice():
     while True:
@@ -105,20 +93,17 @@ def get_country_choice():
 
 if __name__ == '__main__':
     api = SimpleHolidayAPI(API_KEY)
-    year = 2025  # My free plan only supports 2025
+    year = 2025
     
     while True:
         show_menu()
-        choice = input("Enter your choice (1-3): ").strip()
+        choice = input("\nEnter your choice (1-3): ").strip()
         
         if choice == '1':
-            print(f"\n")
-            print(f"FETCHING HOLIDAYS FOR ALL COUNTRIES ({year})")
-            print(f"\n")
+            print(f"\nFETCHING HOLIDAYS FOR ALL COUNTRIES ({year})")
             
             for key, country in COUNTRIES.items():
                 print(f"\n{key}. {country['name']} ({country['code']})")
-                print("\n")
                 
                 api.set_query(country['code'], year)
                 
@@ -131,19 +116,14 @@ if __name__ == '__main__':
                 with open(filename, 'w', encoding='utf-8') as f:
                     json.dump(result, f, indent=2)
                 print(f"Saved to {filename}")
-                print()
             
-            print("\n")
-            print("ALL COUNTRIES COMPLETED!")
-            print("\n")
+            print("\nALL COUNTRIES COMPLETED!")
             
         elif choice == '2':
             show_country_list()
             country_code, country_name = get_country_choice()
             
-            print(f"\n")
-            print(f"FETCHING HOLIDAYS FOR {country_name} ({country_code}) - {year}")
-            print(f"\n")
+            print(f"\nFETCHING HOLIDAYS FOR {country_name} ({country_code}) - {year}")
             
             api.set_query(country_code, year)
             
