@@ -5,7 +5,7 @@ import time
 def image_processing():
     img = cv2.imread('C:/Users/SPRADOH/Desktop/SPRADOH/PythonProjectRepo/LAB 8/variant-7.jpg')
     
-    
+
     flipped = cv2.flip(img, -1)
     
     cv2.imshow('Original', img)
@@ -17,6 +17,14 @@ def image_processing():
 
 def video_processing():
     cap = cv2.VideoCapture(0)
+    
+    
+    fly = cv2.imread('C:/Users/SPRADOH/Desktop/SPRADOH/PythonProjectRepo/LAB 8/fly64.png', cv2.IMREAD_UNCHANGED)
+    
+    # Get fly dimensions
+    fly_height, fly_width = fly.shape[:2]
+    fly_center_x = fly_width // 2
+    fly_center_y = fly_height // 2
     
     while True:
         ret, frame = cap.read()
@@ -52,6 +60,21 @@ def video_processing():
                 cv2.putText(frame, f"Distance: {distance} px", (20, 40), 
                            cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
                 
+                # OVERLAY FLY ON MARKER (Additional Task)
+                top_left_x = marker_x - fly_center_x
+                top_left_y = marker_y - fly_center_y
+                
+                # Check if fly fits within frame boundaries
+                if (top_left_x >= 0 and top_left_y >= 0 and 
+                    top_left_x + fly_width <= width and 
+                    top_left_y + fly_height <= height):
+                    
+                    # Overlay fly with transparency
+                    for i in range(fly_height):
+                        for j in range(fly_width):
+                            if fly[i, j][3] > 0:  # If pixel is not transparent
+                                frame[top_left_y + i, top_left_x + j] = fly[i, j][:3]
+                
                 print(f"Marker: ({marker_x}, {marker_y}), Distance: {distance}")
         
         cv2.imshow('frame', frame)
@@ -63,8 +86,9 @@ def video_processing():
     
     cap.release()
 
+# use comment to toggle which one to process between video and image
 if __name__ == '__main__':
-    #image_processing()  
-    video_processing()  
+    image_processing() 
+    #video_processing()
     
     cv2.destroyAllWindows()
