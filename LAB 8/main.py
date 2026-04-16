@@ -64,15 +64,13 @@ def video_processing():
                 top_left_x = marker_x - fly_center_x
                 top_left_y = marker_y - fly_center_y
                 
-                # Check if fly fits within frame boundaries
                 if (top_left_x >= 0 and top_left_y >= 0 and 
                     top_left_x + fly_width <= width and 
                     top_left_y + fly_height <= height):
                     
-                    # Overlay fly with transparency
                     for i in range(fly_height):
                         for j in range(fly_width):
-                            if fly[i, j][3] > 0:  # If pixel is not transparent
+                            if fly[i, j][3] > 0:
                                 frame[top_left_y + i, top_left_x + j] = fly[i, j][:3]
                 
                 print(f"Marker: ({marker_x}, {marker_y}), Distance: {distance}")
@@ -88,7 +86,7 @@ def video_processing():
 
 # use comment to toggle which one to process between video and image
 if __name__ == '__main__':
-    image_processing() 
+    #image_processing() 
     #video_processing()
     
     cv2.destroyAllWindows()
