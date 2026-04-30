@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="add-form">
+    <h3>Add a Completed Game</h3>
+    <form method="POST" action="/add">
+        <input type="text" name="game" placeholder="Game name" required>
+        <input type="number" name="year" placeholder="Release year" min="1950" max="2026" required>
+        <button type="submit">Add Game</button>
+    </form>
+</div>
+
+<div class="games-list">
+    <h3>Your Game Collection</h3>
+    {% if games %}
+        {% for game in games %}
+        <div class="game-item">
+            <div class="game-info">
+                <span>🎮 {{ game.game }}</span>
+                <span class="game-year"> ({{ game.year }})</span>
+            </div>
+            <a href="/delete/{{ game.id }}" class="delete-btn" onclick="return confirm('Delete this game?')">Delete</a>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="empty">
+            <p>No games added yet. Add your first completed game above!</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

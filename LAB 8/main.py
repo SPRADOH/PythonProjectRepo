@@ -87,6 +87,6 @@ def video_processing():
 # use comment to toggle which one to process between video and image
 if __name__ == '__main__':
     #image_processing() 
-    #video_processing()
+    video_processing()
     
     cv2.destroyAllWindows()
