@@ -11,7 +11,13 @@
 </div>
 
 <div class="games-list">
-    <h3>Your Game Collection</h3>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h3>Your Game Collection</h3>
+        {% if games %}
+        <a href="/clear" class="clear-btn" onclick="return confirm('Delete ALL games? This cannot be undone!')">🗑️ Clear All</a>
+        {% endif %}
+    </div>
+    
     {% if games %}
         {% for game in games %}
         <div class="game-item">

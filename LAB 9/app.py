@@ -1,5 +1,5 @@
-from flask import Flask, render_template, request, redirect, url_for
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, render_template, request, redirect, url_for # type: ignore
+from flask_sqlalchemy import SQLAlchemy # type: ignore
 from datetime import datetime
 
 app = Flask(__name__)
@@ -42,6 +42,13 @@ def add_game():
 def delete_game(id):
     game = Game.query.get_or_404(id)
     db.session.delete(game)
+    db.session.commit()
+    return redirect(url_for('index'))
+
+@app.route('/clear')
+def clear_all():
+    # Delete all games from database
+    db.session.query(Game).delete()
     db.session.commit()
     return redirect(url_for('index'))
 
