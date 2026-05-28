@@ -1,21 +1,19 @@
 import json
 import time
-import requests
+import requests # type: ignore
 import os
 
-import pyttsx3
-import pyaudio
-import vosk
+import pyttsx3  # type: ignore
+import pyaudio  # type: ignore
+import vosk     # type: ignore
 
 class Speech:
     def __init__(self):
         self.tts = pyttsx3.init('sapi5')
-        # Slow down speech slightly for better clarity
         self.tts.setProperty('rate', 150)
 
     def set_voice(self, speaker):
         self.voices = self.tts.getProperty('voices')
-        # Use first available voice (usually English)
         if len(self.voices) > 0:
             return self.voices[0].id
         return None
@@ -29,8 +27,6 @@ class Speech:
 
 class Recognize:
     def __init__(self):
-        # Download English model from: https://alphacephei.com/vosk/models
-        # Use "vosk-model-small-en-us-0.15" for English
         model = vosk.Model('model_small_en')
         self.record = vosk.KaldiRecognizer(model, 16000)
         self.stream()
