@@ -8,9 +8,12 @@ db = Database()
 weather_service = WeatherService()
 joke_service = JokeService()
 
-class CommandHandlers:    
+class CommandHandlers:
+    """Handles all bot commands."""
+
     @staticmethod
     async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+        """Handle /start command - sends welcome message."""
         welcome_message = (
             "👋 Welcome to MultiBot!\n\n"
             "I'm a multi-purpose bot that can help you with various tasks:\n\n"
@@ -23,9 +26,10 @@ class CommandHandlers:
             "ℹ️ /help - Show this menu again"
         )
         await update.message.reply_text(welcome_message)
-    
+
     @staticmethod
     async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
+        """Handle /help command - shows all available commands."""
         help_text = (
             "📖 Available Commands:\n\n"
             "/start - Show main menu\n"
@@ -39,9 +43,10 @@ class CommandHandlers:
             "/about - About this bot"
         )
         await update.message.reply_text(help_text)
-    
+
     @staticmethod
     async def about(update: Update, context: ContextTypes.DEFAULT_TYPE):
+        """Handle /about command - shows bot information."""
         about_text = (
             "🤖 MultiBot v1.0\n\n"
             "Created as a final project using:\n"
@@ -49,63 +54,66 @@ class CommandHandlers:
             "• SQLite for data storage\n"
             "• OpenWeatherMap API\n"
             "• JokeAPI\n\n"
-            "Developed by: [Felix Akinloye Oyediran]"
+            "Developed by: Felix Akinloye Oyediran"
         )
         await update.message.reply_text(about_text)
-    
+
     @staticmethod
     async def joke(update: Update, context: ContextTypes.DEFAULT_TYPE):
+        """Handle /joke command - fetches and sends a random joke."""
         await update.message.reply_text("😂 Fetching a joke for you...")
-        
+
         result = joke_service.get_joke()
         if 'error' in result:
             await update.message.reply_text(f"❌ {result['error']}")
         else:
             message = f"🎯 Category: {result['category']}\n\n{result['joke']}"
             await update.message.reply_text(message)
-    
+
     @staticmethod
     async def weather(update: Update, context: ContextTypes.DEFAULT_TYPE):
+        """Handle /weather command - fetches weather for a city."""
         if not context.args:
             await update.message.reply_text(
                 "❌ Please provide a city name.\n"
                 "Example: /weather London"
             )
             return
-        
+
         city = " ".join(context.args)
         await update.message.reply_text(f"🌤️ Fetching weather for {city}...")
-        
+
         result = weather_service.get_weather(city)
         message = format_weather_message(result)
         await update.message.reply_text(message)
-    
+
     @staticmethod
     async def todo(update: Update, context: ContextTypes.DEFAULT_TYPE):
+        """Handle /todo command - shows user's todo list."""
         user_id = update.effective_user.id
         todos = db.get_todos(user_id)
         message = format_todo_message(todos)
         await update.message.reply_text(message)
-    
+
     @staticmethod
     async def addtodo(update: Update, context: ContextTypes.DEFAULT_TYPE):
-        """Handle /addtodo command"""
+        """Handle /addtodo command - adds a new task."""
         if not context.args:
             await update.message.reply_text(
                 "❌ Please provide a task description.\n"
                 "Example: /addtodo Buy groceries"
             )
             return
-        
+
         user_id = update.effective_user.id
         task = " ".join(context.args)
         db.add_todo(user_id, task)
-        
+
         await update.message.reply_text(f"✅ Task added: {task}")
-    
+
     @staticmethod
     async def done(update: Update, context: ContextTypes.DEFAULT_TYPE):
-        """Handle /done command"""
+        """Handle /done command - marks a task as completed."""
         if not context.args:
             await update.message.reply_text(
                 "❌ Please provide the task ID.\n"
@@ -113,7 +121,7 @@ class CommandHandlers:
                 "Use /todo to see task IDs"
             )
             return
-        
+
         user_id = update.effective_user.id
         try:
             todo_id = int(context.args[0])
@@ -123,17 +131,17 @@ class CommandHandlers:
                 await update.message.reply_text("❌ Task not found or already completed")
         except ValueError:
             await update.message.reply_text("❌ Please provide a valid task ID")
-    
+
     @staticmethod
     async def deltodo(update: Update, context: ContextTypes.DEFAULT_TYPE):
-        """Handle /deltodo command"""
+        """Handle /deltodo command - deletes a task."""
         if not context.args:
             await update.message.reply_text(
                 "❌ Please provide the task ID.\n"
                 "Example: /deltodo 1"
             )
             return
-        
+
         user_id = update.effective_user.id
         try:
             todo_id = int(context.args[0])

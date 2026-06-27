@@ -2,6 +2,8 @@ import requests #type:ignore
 from config import WEATHER_API_KEY, JOKE_URL
 
 class WeatherService:
+    """Handles weather-related API calls to OpenWeatherMap."""
+
     def __init__(self):
         self.api_key = WEATHER_API_KEY
         self.url = "https://api.openweathermap.org/data/2.5/weather"
@@ -37,6 +39,7 @@ class WeatherService:
             return {'error': f"Could not fetch weather: {str(e)}"}
 
 class JokeService:    
+    """Handles joke-related API calls"""
     def __init__(self):
         self.url = JOKE_URL
     
@@ -62,6 +65,7 @@ class JokeService:
             return {'error': f"Could not fetch joke: {str(e)}"}
 
 def format_weather_message(weather_data):
+    """Format weather data into a readable message"""
     if 'error' in weather_data:
         return f"❌ {weather_data['error']}"
     
@@ -76,6 +80,7 @@ def format_weather_message(weather_data):
     )
 
 def format_todo_message(todos):
+    """Format todo list into a readable message"""
     if not todos:
         return "✅ No pending tasks! Great job!"
     

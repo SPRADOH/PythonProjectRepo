@@ -1,3 +1,5 @@
+"""Configuration file for MultiBot - stores API keys and settings."""
+
 BOT_TOKEN = "8642744451:AAEih_EPnDHnTk_SDI-La7ggYd02gpn9TxY"
 
 WEATHER_API_KEY = "ab9aba11ec84a952ef4786cb5ab81709"
