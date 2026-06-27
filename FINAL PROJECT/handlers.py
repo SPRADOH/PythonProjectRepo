@@ -8,12 +8,9 @@ db = Database()
 weather_service = WeatherService()
 joke_service = JokeService()
 
-class CommandHandlers:
-    """Handles all bot commands"""
-    
+class CommandHandlers:    
     @staticmethod
     async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-        """Handle /start command"""
         welcome_message = (
             "👋 Welcome to MultiBot!\n\n"
             "I'm a multi-purpose bot that can help you with various tasks:\n\n"
@@ -29,7 +26,6 @@ class CommandHandlers:
     
     @staticmethod
     async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
-        """Handle /help command"""
         help_text = (
             "📖 Available Commands:\n\n"
             "/start - Show main menu\n"
@@ -46,7 +42,6 @@ class CommandHandlers:
     
     @staticmethod
     async def about(update: Update, context: ContextTypes.DEFAULT_TYPE):
-        """Handle /about command"""
         about_text = (
             "🤖 MultiBot v1.0\n\n"
             "Created as a final project using:\n"
@@ -60,7 +55,6 @@ class CommandHandlers:
     
     @staticmethod
     async def joke(update: Update, context: ContextTypes.DEFAULT_TYPE):
-        """Handle /joke command"""
         await update.message.reply_text("😂 Fetching a joke for you...")
         
         result = joke_service.get_joke()
@@ -72,7 +66,6 @@ class CommandHandlers:
     
     @staticmethod
     async def weather(update: Update, context: ContextTypes.DEFAULT_TYPE):
-        """Handle /weather command"""
         if not context.args:
             await update.message.reply_text(
                 "❌ Please provide a city name.\n"
@@ -89,7 +82,6 @@ class CommandHandlers:
     
     @staticmethod
     async def todo(update: Update, context: ContextTypes.DEFAULT_TYPE):
-        """Handle /todo command"""
         user_id = update.effective_user.id
         todos = db.get_todos(user_id)
         message = format_todo_message(todos)

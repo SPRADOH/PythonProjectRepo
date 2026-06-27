@@ -4,7 +4,6 @@
 import logging
 import os
 
-# Disable system proxy
 os.environ['NO_PROXY'] = '*'
 
 from telegram import Update #type:ignore
@@ -13,16 +12,13 @@ from config import BOT_TOKEN
 from handlers import CommandHandlers
 from db import Database
 
-# Configure logging
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO
 )
 logger = logging.getLogger(__name__)
 
-def main():
-    """Main function to run the bot"""
-    
+def main():   
     proxy_url = None
     
     if proxy_url:
@@ -50,7 +46,6 @@ def main():
     application.add_handler(CommandHandler('done', CommandHandlers.done))
     application.add_handler(CommandHandler('deltodo', CommandHandlers.deltodo))
     
-    # Start the bot
     logger.info("Starting bot...")
     print("✅ Bot started! Press Ctrl+C to stop.")
     
